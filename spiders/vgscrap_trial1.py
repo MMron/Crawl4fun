@@ -20,7 +20,7 @@ from scrapy.utils.test import get_crawler
 
 class MySpider(scrapy.Spider):
     name = 'vg crawler'
-    allowed_domains = ['vg.no/nyhter']
+    allowed_domains = ['vg.no']
     start_urls = [f'https://www.vg.no/nyheter/?pageId={f}' for f in range(250)]
     
     #[
@@ -33,8 +33,9 @@ class MySpider(scrapy.Spider):
         self.no_deep_dives = 0
         self.max_dives = np.inf
         self.store_folder = "/Users/meronhailetesfazion/Developer/Crawl4fun/spiders/data/vg/"
-
-        yield scrapy.Request('https://www.vg.no/nyheter', self.first_parse)
+        for url in [f'https://www.vg.no/nyheter/?pageId={f}' for f in range(250)]:
+            yield scrapy.Request(url, self.first_parse)
+        #yield scrapy.Request('https://www.vg.no/nyheter', self.first_parse)
 
     def first_parse(self, response):
 
